@@ -26,6 +26,10 @@
 # Visual Studio cache directory
 .vs/
 
+# Audio Files
+Assets/Audio
+
+
 # Gradle cache directory
 .gradle/
 
