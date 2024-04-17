@@ -28,11 +28,14 @@ public class Controller : MonoBehaviour
             {
                 Resume();                                  //to pause menu
             }
+
+            //if game state = game
             else if (gameState == 1)
             {                                               // we can do it else if pause and else if options with int gameState
                 Pause();                                   //to game
             }
 
+            //if game state = options
             else if (gameState == 3)
             {
                 Pause();
@@ -40,6 +43,8 @@ public class Controller : MonoBehaviour
         }
 
     }
+
+    //make the game state = game. Close pause menu, cursor invisible, time goes on..
     public void Resume()
     {
         pauseMenu.SetActive(false);
@@ -50,6 +55,8 @@ public class Controller : MonoBehaviour
         gameState = 1;
         Cursor.visible = false;
     }
+
+    //make the game state = pause. Open pause menu, cursor visible, time stops..
     public void Pause()
     {
         pauseMenu.SetActive(true);
@@ -60,6 +67,8 @@ public class Controller : MonoBehaviour
         gameState = 2;
         Cursor.visible = true;
     }
+
+    //make the game state = options. It's just like pause menu but you can manage different settings..
     public void Options()
     {
         pauseMenu.SetActive(false);
@@ -71,6 +80,8 @@ public class Controller : MonoBehaviour
         Cursor.visible = true;
 
     }
+
+    //open menu scene
     public void MainMenu()
     {
         Time.timeScale = 1f;
@@ -79,24 +90,29 @@ public class Controller : MonoBehaviour
         Cursor.visible = true;
     }
 
-
+    //Exit Game
     public void DoExitGame()
     {
         Application.Quit();
     }
+    //Graph Quality. Doesn't necessary
     public void SetQuality(int qual)
     {
         QualitySettings.SetQualityLevel(qual);
     }
+
+    //Full Screen
     public void SetFullScreen(bool isFull)
     {
         Screen.fullScreen = isFull;
     }
+    //Open - Close Music. Not working for now..
     public void SetMusic(bool isMusic)
     {
         //theme.mute = !isMusic;
     }
 
+    //Open the next scene based on the scene number
     public void NextScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

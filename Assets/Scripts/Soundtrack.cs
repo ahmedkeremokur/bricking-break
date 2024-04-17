@@ -9,6 +9,8 @@ public class Soundtrack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //The background music starts playing in the menu scene.
+        //However, when returning to the menu from within the game, we need to check to prevent additional music from playing on top of it.
         if (!soundtrack)
         {
             GameObject.DontDestroyOnLoad(this.gameObject);
@@ -18,11 +20,5 @@ public class Soundtrack : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

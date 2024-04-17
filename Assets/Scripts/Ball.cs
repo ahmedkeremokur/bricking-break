@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour
     private AudioSource outlineAudioSource;
     public Rigidbody2D ballRigidBody;
     public float ballVelocity = 7.0f;
+    public bool isPaused = false;
 
 
 
@@ -18,6 +19,9 @@ public class Ball : MonoBehaviour
     void Start()
     {
         pedal = GameObject.FindObjectOfType<Pedal>().gameObject;
+        isPaused = false;
+
+        //Audio
         outlineAudioSource = GetComponent<AudioSource>();   //Get audiosource component for outlines
         if (outlineAudioSource == null)
         {
@@ -29,19 +33,32 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-            {
-            Time.timeScale = 0;
-            }
-        if (Input.GetKeyDown(KeyCode.B))
+
+        //-----Pause-----  Keycode: Space
+        if (isPaused == false)
         {
-            Time.timeScale = 1;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Time.timeScale = 0;
+                isPaused = true;
+            }
+        }
+
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Time.timeScale = 1;
+                isPaused = false;
+            }
         }
         
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0f); //there was a bug that cause the ball moving at z axis but I don't know why. That's for locking it.
+        
+        
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0f); //There was a bug causing the ball to move along the z-axis, which is why I locked it.
         if (!gameStarted)
         {
-            transform.position = new Vector3(pedal.transform.position.x, transform.position.y, transform.position.z);   //make the ball move with the bar before the game starts
+            transform.position = new Vector3(pedal.transform.position.x, transform.position.y, transform.position.z);   //Before the game starts, it synchronizes the ball's movement with the bar.
             if (Input.GetMouseButtonDown(0))
             {
                 gameStarted = true;
@@ -49,24 +66,15 @@ public class Ball : MonoBehaviour
             }
         }
     }
+
+    //Collisions: Brick, outlines, pedal.   Trigger: Fall Collider
     void OnCollisionEnter2D(Collision2D collision)
     {
-
-        //if (collision.gameObject.name == "Right")
-        //{
-         //   ballRigidBody.velocity = new Vector2(-ballVelocity, ballRigidBody.velocity.y);
-        //}
-
-        //if (collision.gameObject.name == "Left")
-        //{
-         //   ballRigidBody.velocity = new Vector2(ballVelocity, ballRigidBody.velocity.y);
-        //}
 
         if (collision.gameObject.tag.Equals("Brick"))
         {
             Debug.Log("Collision occured with a brick.");
-            ContactPoint2D contactPoint = collision.contacts[0];
-            
+            ContactPoint2D contactPoint = collision.contacts[0];            
         } 
             
         else if (collision.gameObject.tag.Equals("Outlines"))
@@ -105,6 +113,7 @@ public class Ball : MonoBehaviour
         Cursor.visible = true;
     }
 
+    //Sometimes the ball only moves along the horizontal axis. For now, I'm leaving a button for the user to fix this
     public void stuck()
     {
         transform.position = new Vector3(pedal.transform.position.x, pedal.transform.position.y + 1f, 0f);

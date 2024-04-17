@@ -21,22 +21,19 @@ public class NextLevelSystem : MonoBehaviour
     
     private void Update()
     {
-
         if (Brick.totalBrick <= 0)
         {
             NextLevel();
         }
 
-
-        //Checking the Next Level System with a key
-        if (Input.GetKeyDown(KeyCode.O))
+        //Actually it is a cheat
+        if (Input.GetKeyDown(KeyCode.O))    //It is not zero
         {
             NextLevel();
         }
-
     }
 
-
+    //Next Level System. Open the next scene based on the scene number and unlock the new level.
     public void NextLevel()
     {
         int saveIndex = PlayerPrefs.GetInt("SaveIndex");
@@ -50,6 +47,7 @@ public class NextLevelSystem : MonoBehaviour
         GameObject.FindObjectOfType<Controller>().GetComponent<Controller>().NextScene();
     }
 
+    //There are 2 object in the scene with just colliders. When there is no brick in the scene the are colliding and next lvl..
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name.Equals("Gate"))
